@@ -9,11 +9,13 @@ import Gallery from '../Gallery/Gallery'
 class App extends Component {
 
   state = {
+    // this is just to show us the different data we are using on our images
     newImage: {
       path: '',
       date: '',
       time: ''
     },
+    // array for client side storage
     imageList: [ ],
   }
 
@@ -61,7 +63,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        <Gallery />
+        <Gallery list={this.state.imageList}/>
       </div>
     );
   }
