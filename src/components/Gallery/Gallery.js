@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 
 class Gallery extends Component {
-
   
+<<<<<<< HEAD
   heatMapColorforValue(value){
     var h = (1.0 - value) * 240
     return "hsl(" + h + ", 100%, 50%)";
@@ -45,10 +45,13 @@ class Gallery extends Component {
     }
   } // end componentDidUpdate
   
+=======
+>>>>>>> feature-dashboard
   render() {
     return (
       <section>
         <h2>Your Thermal Images</h2>
+<<<<<<< HEAD
           { this.props.list.map( (image, index) => 
             <div key={index}>
               {/* how do I add .toLocaleDateString() to the date below? */}
@@ -56,6 +59,17 @@ class Gallery extends Component {
               <canvas ref={'canvas'+index} width="320" height="240"></canvas>
             </div>
             ) }
+=======
+        <ul>
+          { this.props.list.map( (image, index) => 
+            <div key={index}>
+              <img alt='' src={image.path}/>
+              <p>Date: {image.date}</p>
+              <p>Time: {image.time}</p>
+            </div>
+          )}
+        </ul>
+>>>>>>> feature-dashboard
       </section>
     );
   }
