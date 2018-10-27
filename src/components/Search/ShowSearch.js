@@ -11,9 +11,9 @@ class ShowSearch extends Component {
   }
 
   componentDidUpdate() {
-    for(let i = 0; i < this.props.searchResults.length; i++) {
-      let images = this.props.searchResults[i];
-      let image = this.props.searchResults[i];
+    for(let i = 0; i < this.props.showSearch.length; i++) {
+      let images = this.props.showSearch[i];
+      let image = this.props.showSearch[i];
       let ref = `canvas${i}`;
       console.log(ref);
       console.log('images:', images);
@@ -50,7 +50,7 @@ class ShowSearch extends Component {
         return (
           <section>
           <h2>Search Results</h2>
-            { this.props.searchResults.map( (image, index) => 
+            { this.props.showSearch.map( (image, index) => 
               // let searchIndex = (index + 1);
               <div key={index}>
                 <p>Date/Time: {moment(image.datetime).format('ddd M[/]D, YYYY, h:mm')}</p>

@@ -57,8 +57,9 @@ class App extends Component {
     this.setState({
       imageSearch: {
         // Do we need this (below) if we don't care to store the search history??
-        //...this.state.imageSearch,
+        ...this.state.imageSearch,
         [propertyName]: event.target.value,
+        // [propertyName]: {moment(event.target.value).format('ddd M[/]D, YYYY, h:mm')},
       }
     })
   }
@@ -110,7 +111,7 @@ class App extends Component {
         <Search handleSearchChange={this.handleSearchChange}
                 submitSearch={this.submitSearch}
                 imageSearch={this.state.imageSearch}/>
-        <ShowSearch searchResults={this.state.showSearch}/>
+        <ShowSearch showSearch={this.state.showSearch}/>
         <Gallery list={this.state.imageList}
                  />
       </div>
