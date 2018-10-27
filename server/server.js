@@ -67,6 +67,11 @@ const images = [
     }
 ];
 
+app.post('/images', (req, res) => {
+    console.log('POST /images', req.body);
+    res.sendStatus(201);
+})
+
 // GET request for Gallery
 app.get('/images', (req, res) => {
     res.send(images);
