@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import Gallery from '../Gallery/Gallery'
+import Gallery from '../Gallery/Gallery';
+import Search from '../Search/Search';
+import ShowSearch from '../Search/ShowSearch';
 
 
 
@@ -17,6 +19,13 @@ class App extends Component {
     },
     // array for client side storage
     imageList: [ ],
+    // this is used for searching the database for the specific image
+    imageSearch:{
+      date: '',
+      time: '',
+    },
+    // this is what we will show as the search results
+    showSearch: [ ]
   }
 
 
@@ -45,6 +54,43 @@ class App extends Component {
     this.getImages();
   }
 
+  // handleSearchChange for Search component
+  handleSearchChange = (propertyName) => (event) => {
+    this.setState({
+      imageSearch: {
+        // Do we need this (below) if we don't care to store the search history??
+        //...this.state.imageSearch,
+        [propertyName]: event.target.value,
+      }
+    })
+  }
+
+
+  // This function will take the state.imageSearch data
+  // and GET any matching images from the database to show on DOM
+  submitSearch = (event) => {
+    event.preventDefault();
+    let searchQuery = this.state.imageSearch;
+    console.log('Searching images for:', searchQuery);
+    axios({
+      method: 'GET',
+      // needs fixing, the searchQuery isn't blue yet
+      url: `/search/${searchQuery}`
+    })
+    .then( (response) => {
+      console.log('GET response from Search was', response.data );
+      // Put the response into state, so that we will trigger render() 
+      this.setState({
+        showSearch: response.data
+      })
+    })
+    .catch( (error) => {
+      alert('Error on image search query', error);
+    })
+  } // end submitSearch
+
+
+
 
   render() {
     return (
@@ -63,6 +109,9 @@ class App extends Component {
             Learn React
           </a>
         </header>
+        <Search handleSearchChange={this.handleSearchChange}
+                submitSearch={this.submitSearch}/>
+        <ShowSearch searchResults={this.state.showSearch}/>
         <Gallery list={this.state.imageList}/>
       </div>
     );
