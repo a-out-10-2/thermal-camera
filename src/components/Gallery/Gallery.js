@@ -32,8 +32,11 @@ class Gallery extends Component {
       // 10 - 10, 0 / 22
       // 32 - 10, 22 / 22
     
-      for( let x = 0; x < 32; x++) {
-        for( let y = 0; y < 24; y++) {
+      for( let y = 0; y < 23; y++) {
+      //for( let y = 0; y < this.props.list.length; y++) {
+        let row = this.props.list[y];
+        for( let x = 0; x < 32; x++) {
+        //for( let x = 0; x < row.length; x++) {
           // Value of item at that datapoint
           let cTemp = image.data[y][x];
           //console.log(cTemp);

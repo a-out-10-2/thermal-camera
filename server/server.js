@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 //const axios = require('axios');
 //const cron = require('node-cron');
+const bodyParser = require('body-parser');
 
 // sample data
 const images = [
@@ -67,8 +68,22 @@ const images = [
     }
 ];
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.post('/images', (req, res) => {
-    console.log('POST /images', req.body);
+    console.log('POST /images', req.body.data);
+    let data = [];
+    let row = [];
+    for(let i = 0; i < req.body.data.length; i++) {
+        if(i > 0 && i % 32 == 0) {
+            data.push(row);
+            row = [];
+        }
+        row.push(req.body.data[i]);
+    }
+    let dt = new Date();
+    let utcDate = dt.toUTCString();
+    images.push({datetime: utcDate, data: data});
     res.sendStatus(201);
 })
 
