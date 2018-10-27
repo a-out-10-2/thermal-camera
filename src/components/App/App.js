@@ -14,15 +14,13 @@ class App extends Component {
     // this is just to show us the different data we are using on our images
     newImage: {
       path: '',
-      date: '',
-      time: ''
+      date: ''
     },
     // array for client side storage
     imageList: [ ],
     // this is used for searching the database for the specific image
     imageSearch:{
-      date: '',
-      time: '',
+      date: ''
     },
     // this is what we will show as the search results
     showSearch: [ ]
@@ -70,7 +68,7 @@ class App extends Component {
   // and GET any matching images from the database to show on DOM
   submitSearch = (event) => {
     event.preventDefault();
-    let searchQuery = this.state.imageSearch;
+    let searchQuery = this.state.imageSearch.date;
     console.log('Searching images for:', searchQuery);
     axios({
       method: 'GET',
@@ -110,9 +108,11 @@ class App extends Component {
           </a>
         </header>
         <Search handleSearchChange={this.handleSearchChange}
-                submitSearch={this.submitSearch}/>
+                submitSearch={this.submitSearch}
+                imageSearch={this.state.imageSearch}/>
         <ShowSearch searchResults={this.state.showSearch}/>
-        <Gallery list={this.state.imageList}/>
+        <Gallery list={this.state.imageList}
+                 />
       </div>
     );
   }
