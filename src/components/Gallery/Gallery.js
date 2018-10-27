@@ -17,7 +17,8 @@ class Gallery extends Component {
       let image = this.props.list[i];
       let ref = `canvas${i}`;
       console.log(ref);
-
+      console.log('ref.datetime:', ref.datetime);
+      
       let ctx = this.refs[ref].getContext('2d');
       let m = 10;
       //let ctx = c.getContext("2d");
