@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import moment from 'moment';
 
 
 class Gallery extends Component {
@@ -50,20 +50,10 @@ class Gallery extends Component {
         <h2>Your Thermal Images</h2>
           { this.props.list.map( (image, index) => 
             <div key={index}>
-              {/* how do I add .toLocaleDateString() to the date below? */}
-              <p>Date/Time: {image.datetime}</p>
+              <p>Date/Time: {moment(image.datetime).format('ddd M[/]D, YYYY, h:mm')}</p>
               <canvas ref={'canvas'+index} width="320" height="240"></canvas>
             </div>
             ) }
-        <ul>
-          { this.props.list.map( (image, index) => 
-            <div key={index}>
-              <img alt='' src={image.path}/>
-              <p>Date: {image.date}</p>
-              <p>Time: {image.time}</p>
-            </div>
-          )}
-        </ul>
       </section>
     );
   }
