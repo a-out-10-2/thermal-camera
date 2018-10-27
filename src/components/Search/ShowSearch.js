@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import moment from 'moment';
 
 
 class ShowSearch extends Component {
@@ -51,9 +51,9 @@ class ShowSearch extends Component {
           <section>
           <h2>Search Results</h2>
             { this.props.searchResults.map( (image, index) => 
+              // let searchIndex = (index + 1);
               <div key={index}>
-                {/* how do I add .toLocaleDateString() to the date below? */}
-                <p>Date/Time: {image.datetime}</p>
+                <p>Date/Time: {moment(image.datetime).format('ddd M[/]D, YYYY, h:mm')}</p>
                 <canvas ref={'canvas'+index} width="320" height="240"></canvas>
               </div>
               ) }
