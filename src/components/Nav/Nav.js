@@ -7,14 +7,19 @@ const Nav = (props) => (
     <div className="navbar">
         <ul>
             <li>
-                <Link to="/gallery">
+                <Link to="/dashboard">
                     Home Page
                 </Link>
-                <li>
-                    <Link to="/search">
-                        Search
-                    </Link>
-                </li>
+            </li>
+            <li>
+                <Link to="/gallery">
+                    Gallery
+                </Link>
+            </li>
+            <li>
+                <Link to="/search">
+                    Search
+                </Link>
             </li>
         </ul>
     </div>

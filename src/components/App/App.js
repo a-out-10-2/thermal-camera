@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import thermal from './thermal.jpg';
 import './App.css';
 import axios from 'axios';
 import Gallery from '../Gallery/Gallery';
 import Search from '../Search/Search';
 import ShowSearch from '../Search/ShowSearch';
+// import Gallery from '../Gallery/Gallery'
 
 
 
@@ -57,8 +58,9 @@ class App extends Component {
     this.setState({
       imageSearch: {
         // Do we need this (below) if we don't care to store the search history??
-        //...this.state.imageSearch,
+        ...this.state.imageSearch,
         [propertyName]: event.target.value,
+        // [propertyName]: {moment(event.target.value).format('ddd M[/]D, YYYY, h:mm')},
       }
     })
   }
@@ -94,23 +96,15 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Low Cost Thermal Camera
           </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <img src={thermal} className="App-logo" alt="logo" />
         </header>
         <Search handleSearchChange={this.handleSearchChange}
                 submitSearch={this.submitSearch}
                 imageSearch={this.state.imageSearch}/>
-        <ShowSearch searchResults={this.state.showSearch}/>
+        <ShowSearch showSearch={this.state.showSearch}/>
         <Gallery list={this.state.imageList}
                  />
       </div>
