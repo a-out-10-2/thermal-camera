@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 
 class Gallery extends Component {
 
-
-
-
+  
   heatMapColorforValue(value){
     var h = (1.0 - value) * 240
     return "hsl(" + h + ", 100%, 50%)";
@@ -14,11 +12,13 @@ class Gallery extends Component {
 
   componentDidUpdate() {
     for(let i = 0; i < this.props.list.length; i++) {
+      let images = this.props.list[i];
       let image = this.props.list[i];
       let ref = `canvas${i}`;
       console.log(ref);
-      console.log('ref.datetime:', ref.datetime);
-      
+      console.log('images:', images);
+      console.log('images.datetime:', images.datetime);
+
       let ctx = this.refs[ref].getContext('2d');
       let m = 10;
       //let ctx = c.getContext("2d");
@@ -43,7 +43,7 @@ class Gallery extends Component {
         }
       }
     }
-  }
+  } // end componentDidUpdate
   
   render() {
     return (
@@ -51,10 +51,9 @@ class Gallery extends Component {
         <h2>Your Thermal Images</h2>
           { this.props.list.map( (image, index) => 
             <div key={index}>
+              {/* how do I add .toLocaleDateString() to the date below? */}
+              <p>Date/Time: {image.datetime}</p>
               <canvas ref={'canvas'+index} width="320" height="240"></canvas>
-              {/* <img alt='' src={image.path}/>
-              <p>Date: {image.date}</p>
-              <p>Time: {image.time}</p> */}
             </div>
             ) }
       </section>
