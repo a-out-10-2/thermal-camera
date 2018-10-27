@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 
 
@@ -12,7 +11,11 @@ class Gallery extends Component {
             <h2>Your Thermal Images</h2>
             <ul>
               { this.props.list.map( (image, index) => 
-                  <li key={index}>The {creature.name} originates in {creature.origin}.</li>
+                <div key={index}>
+                  <img alt='' src={image.path}/>
+                  <p>Date: {image.date}</p>
+                  <p>Time: {image.time}</p>
+                </div>
                 ) }
             </ul>
           </section>

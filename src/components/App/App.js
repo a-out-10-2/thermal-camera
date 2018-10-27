@@ -9,6 +9,11 @@ import Gallery from '../Gallery/Gallery'
 class App extends Component {
 
   state = {
+    newImage: {
+      path: '',
+      date: '',
+      time: ''
+    },
     imageList: [ ],
   }
 
