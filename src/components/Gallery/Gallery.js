@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import './Gallery.css';
 
 
 class Gallery extends Component {
@@ -49,9 +50,11 @@ class Gallery extends Component {
       <section>
         <h2>Your Thermal Images</h2>
           { this.props.list.map( (image, index) => 
-            <div key={index}>
-              <p>Date/Time: {moment(image.datetime).format('ddd M[/]D, YYYY, h:mm')}</p>
+            <div className="galleryList" key={index}>
+            <div>
+              <p className="dateTime">Date/Time: {moment(image.datetime).format('ddd M[/]D, YYYY, h:mm')}</p>
               <canvas ref={'canvas'+index} width="320" height="240"></canvas>
+            </div>
             </div>
             ) }
       </section>
