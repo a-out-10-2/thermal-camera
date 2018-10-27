@@ -11,9 +11,9 @@ class ShowSearch extends Component {
   }
 
   componentDidUpdate() {
-    for(let i = 0; i < this.props.list.length; i++) {
-      let images = this.props.list[i];
-      let image = this.props.list[i];
+    for(let i = 0; i < this.props.searchResults.length; i++) {
+      let images = this.props.searchResults[i];
+      let image = this.props.searchResults[i];
       let ref = `canvas${i}`;
       console.log(ref);
       console.log('images:', images);
@@ -50,7 +50,7 @@ class ShowSearch extends Component {
         return (
           <section>
           <h2>Search Results</h2>
-            { this.props.list.map( (image, index) => 
+            { this.props.searchResults.map( (image, index) => 
               <div key={index}>
                 {/* how do I add .toLocaleDateString() to the date below? */}
                 <p>Date/Time: {image.datetime}</p>
