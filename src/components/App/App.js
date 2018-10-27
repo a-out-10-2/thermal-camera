@@ -109,10 +109,11 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        <Search handleSearchChange={this.handleSearchChange}
+        {/* <Search handleSearchChange={this.handleSearchChange}
                 submitSearch={this.submitSearch}/>
-        <ShowSearch searchResults={this.state.showSearch}/>
-        <Gallery list={this.state.imageList}/>
+        <ShowSearch searchResults={this.state.showSearch}/> */}
+        <Gallery list={this.state.imageList}
+                 />
       </div>
     );
   }
