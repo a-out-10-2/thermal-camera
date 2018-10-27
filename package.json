@@ -2,8 +2,13 @@
   "name": "thermal-camera",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
     "material-ui": "^0.20.2",
+    "mongoose": "^5.3.7",
+    "node-cron": "^2.0.3",
     "nodemon": "^1.18.5",
     "pg": "^7.6.0",
     "react": "^16.6.0",
@@ -15,6 +20,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "node server/server.js",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
