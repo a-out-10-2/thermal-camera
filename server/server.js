@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 //const axios = require('axios');
 //const cron = require('node-cron');
+
 // sample data
 const images = [
     {
@@ -66,9 +67,23 @@ const images = [
     }
 ];
 
+// GET request for Gallery
 app.get('/images', (req, res) => {
     res.send(images);
 })
+
+// GET request for Search feature
+app.get(`/search/${searchQuery}`, (req, res) => {
+    for (const image of images) {
+        if(searchQuery = image.datetime){
+            res.send(image);
+        }
+        else{
+            res.send('No images found.');
+        }
+    }
+})
+
 
 // Serve up static files
 app.use(express.static('public'));
