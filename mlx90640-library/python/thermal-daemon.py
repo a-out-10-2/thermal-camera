@@ -1,14 +1,13 @@
 #!/usr/bin/python
 # IoT Hack Day 2018
-# author: Andy Moe (moe.andrew@gmail.com)
-
+# author: Andy Moe (moe.andrew@gmail.com) 
 
 # Thermal device (32 x 24)
 import sys
 sys.path.insert(0, "./build/lib.linux-armv7l-2.7")
 import MLX90640 as thermaldev
 
-DEVICE_FPS = 8
+DEVICE_FPS = 16
 PIX_WIDTH = 24
 PIX_HEIGHT = 32
 OUT_PIX_WIDTH = 240
@@ -81,12 +80,41 @@ def __write_img_to_display(img, display):
 
     pygame.display.update()
 
+# Keep the RGB values within bounds
+def __clamp(x):
+  return max(0, min(x, 255))
+
+# Convert a temperature value to RGB for the heat map
+def __convert_to_rgb(minimum, maximum, value):
+    minimum, maximum = float(minimum), float(maximum)
+    halfmax = (minimum + maximum) / 2
+    if minimum <= value <= halfmax:
+        r = 0
+        g = int( 255./(halfmax - minimum) * (value - minimum))
+        b = int( 255. + -255./(halfmax - minimum)  * (value - minimum))
+        return (__clamp(r),__clamp(g),__clamp(b))
+    elif halfmax < value <= maximum:
+        r = int( 255./(maximum - halfmax) * (value - halfmax))
+        g = int( 255. + -255./(maximum - halfmax)  * (value - halfmax))
+        b = 0
+        return (__clamp(r),__clamp(g),__clamp(b))
+    else:
+        return (0,0,0)
+
+# Write the image to the display
+def __write_frame_to_display(frame, display):
+    j = 0
+    min, max = __get_minmax(frame)
+    totalItems = len(frame)
+    for i in range(totalItems):
+        if i % 32 == 0 and i > 0:
+            j = j + 1
+        rgb = __convert_to_rgb(min - 1, max + 1, frame[i])
+        pygame.draw.rect(display, rgb, ((i%32)*10,(j)*10,10,10), 0)
+    pygame.display.update()
+
 #def __write_img_to_file(img):
 #   filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S.%f")
-
-# Convert the PIL.Image to 2D list
-#def __convert_img_to_2darray(img):
-#   
 
 # Capture the thermal data from the device and return it
 def __capture_thermal_data():
@@ -119,7 +147,7 @@ def __temp_to_col2(val, min, max):
 def __convert_frame_to_img(frame):
     img = Image.new( 'RGB', (PIX_WIDTH, PIX_HEIGHT), "black")
     #print(",".join(["{:05b}".format(x) for x in range(PIX_WIDTH)]))
-    for x in range(PIX_WIDTH):
+    for x in range(totalItems):
         row = []
         for y in range(PIX_HEIGHT):
             val = frame[PIX_HEIGHT * ((PIX_WIDTH - 1) - x) + y]
@@ -128,30 +156,13 @@ def __convert_frame_to_img(frame):
     #print(",".join(["{:05.2f}".format(v) for v in row]))
     return img
 
-def __convert_frame_to_img2(frame, min, max):
-    img = Image.new( 'RGB', (PIX_WIDTH, PIX_HEIGHT), "black")
-    #print(",".join(["{:05b}".format(x) for x in range(PIX_WIDTH)]))
-    for x in range(PIX_WIDTH):
-        row = []
-        for y in range(PIX_HEIGHT):
-            val = frame[PIX_HEIGHT * ((PIX_WIDTH - 1) - x) + y]
-            row.append(val)
-            img.putpixel((x, y), __temp_to_col2(val, min, max))
-    #print(",".join(["{:05.2f}".format(v) for v in row]))
-    return img
-
-
 if __name__ == "__main__":
 
     #min, max = __get_minmax(frame)
     #print("min:{}\tmax:{}".format(min, max))
     #img = __convert_frame_to_img(__capture_thermal_data())
-    #img = img.resize( (OUT_PIX_WIDTH, OUT_PIX_HEIGHT), Image.BICUBIC)
-    #img.save("testimg.png")
 
     display = __init_display()
-    #__write_img_to_display(img, display)
-    #time.sleep(5)
 
     # Setup button
     #buttonthr = ButtonListener(0)
@@ -160,7 +171,8 @@ if __name__ == "__main__":
     GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
     previous_button_state = True
 
-while(True):
+
+    while(True):
 
         current_button_state = GPIO.input(22)
 
@@ -170,33 +182,9 @@ while(True):
 
         previous_button_state = current_button_state
 
-        sys.stdout.write("** Capturing thermal data ... ")
-        sys.stdout.flush()
+        # Capturing thermal data
         frame = __capture_thermal_data()
-        sys.stdout.write("DONE\n")
-        sys.stdout.flush()
-
-        sys.stdout.write("** Converting data to PIL.Image ... ")
-        sys.stdout.flush()
-        #min, max = __get_minmax(frame)
-        img = __convert_frame_to_img(frame)
-        #img = __convert_frame_to_img2(frame, min, max)
-        sys.stdout.write("DONE\n")
-        sys.stdout.flush()
-
-        sys.stdout.write("** Interpolating PIL.Image thermal ... ")
-        sys.stdout.flush()
-        img = img.resize( (OUT_PIX_WIDTH, OUT_PIX_HEIGHT), Image.BICUBIC)
-        sys.stdout.write("DONE\n")
-        sys.stdout.flush()
-
-        sys.stdout.write("** Writing PIL.Image through PyGame to /dev/fb1 ... ")
-        sys.stdout.flush()
-        __write_img_to_display(img, display)
-        sys.stdout.write("DONE\n")
-        sys.stdout.flush()
-
-        #arr2d = __convert_img_to_2darray(img)
+        __write_frame_to_display(frame, display)
 
         if send_image:
             datamap = {'data':frame}
