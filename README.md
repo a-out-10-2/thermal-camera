@@ -12,6 +12,33 @@ This repository includes Python code that can be run on a Raspberry PI to dispal
 - [3D Printed Enclosure](https://www.thingiverse.com/thing:803447)
 
 
+## Setup
+
+### Raspberry PI
+
+Our project uses the [mlx90640-library](https://github.com/pimoroni/mlx90640-library). Download the above library on your Raspberry PI and run it with the following commands:
+
+```
+make clean
+make I2C_MODE=RPI
+```
+
+By default, the c++ examples in this library only output to `/dev/fb0` which is the HDMI frame buffer. To output to the PiTFT, you'll need to modify the `/examples/lib/fb.c`, switch to `/dev/fb1` and re-make the project.
+
+Download the `/python/thermal-daemon.py` file from this project on to your Raspberry PI. Optionally, download the helper `.sh` files in the python folder. **IMPORTANT: Make sure to run the `thermal-daemon.py` with `sudo` or you will get a segmentation fault. 
+
+### Web Server
+
+Fork and clone this repository then start it with the following commands:
+
+```
+npm install
+npm run server
+npm run client
+```
+
+*NOTE: You'll need to update the `thermal-daemon.py` to point to your computers IP address or to the location you're hosting the web server.*
+
 ## Web Server Feature List
 
 ### Header COMPONENT
