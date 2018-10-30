@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 class Header extends Component {
     render() {
         return (
-            <div>
+            <div className="GridHeader">
                 <h1 className="Title">Thermal Camera</h1>
             </div>
         );
