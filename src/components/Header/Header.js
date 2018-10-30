@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-const Header = ({ title }) => (
-    <div className="grid">
-        <div className="col-2-3-4">
-            <h1 className="lead">{ title }</h1>
-        </div>
-    </div>
-);
+class Header extends Component {
+    render() {
+        return (
+            <div>
+                <h1 className="Title">Thermal Camera</h1>
+            </div>
+        );
+    }
+}
 
-export default Header;
+export default connect(mapStateToProps)(Header);
